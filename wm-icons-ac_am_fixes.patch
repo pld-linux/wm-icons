@@ -1,0 +1,76 @@
+diff -Nur wm-icons-0.3.0.old/configure.in wm-icons-0.3.0.new/configure.in
+--- wm-icons-0.3.0.old/configure.in	2001-03-19 20:01:28.000000000 +0100
++++ wm-icons-0.3.0.new/configure.in	2004-12-09 16:18:02.725725136 +0100
+@@ -113,12 +113,9 @@
+ 	etc/Makefile
+ 	devel/Makefile
+ 	devel/bin/Makefile
+-	bin/Makefile
+ 	bin/wm-icons-config
+ 	doc/Makefile
+ 	doc/wm-icons.lsm
+-	rpm/Makefile
+-	rpm/wm-icons.spec
+ )
+ 
+ echo "
+diff -Nur wm-icons-0.3.0.old/etc/Makefile.am wm-icons-0.3.0.new/etc/Makefile.am
+--- wm-icons-0.3.0.old/etc/Makefile.am	2001-01-15 19:23:35.000000000 +0100
++++ wm-icons-0.3.0.new/etc/Makefile.am	2004-12-09 16:16:42.205966000 +0100
+@@ -21,7 +21,7 @@
+ 
+ at = @
+ 
+-editex = sed -e 's,$(at)icondir@,$(icondir),g' -e 's,$(at)userdir@,$(userdir),g'
++editex = sed -e 's,$(at)icondir@,$(icondir),g' -e 's,$(at)userdir@,$(DESTDIR)$(userdir),g'
+ 
+ .in:
+ 	rm -f $@ $@.tmp
+diff -Nur wm-icons-0.3.0.old/icons/Makefile.am wm-icons-0.3.0.new/icons/Makefile.am
+--- wm-icons-0.3.0.old/icons/Makefile.am	2001-03-19 19:57:42.000000000 +0100
++++ wm-icons-0.3.0.new/icons/Makefile.am	2004-12-09 16:15:43.908828512 +0100
+@@ -32,16 +32,16 @@
+ SYMLINKS_LST = _symlinks.lst
+ 
+ install-data-local:
+-	$(mkinstalldirs) $(icondir)
++	$(mkinstalldirs) $(DESTDIR)$(icondir)
+ 	chmod -R o-w,go+rX *
+ 	cd $(top_srcdir)/icons; \
+ 	for iconset in $(SELECTED_ICON_SETS); do \
+-		rm -rf $(icondir)/$$iconset; \
++		rm -rf $(DESTDIR)$(icondir)/$$iconset; \
+ 		tar cpf - "$$iconset" \
+-			| (cd "$(icondir)" && tar xfBp -); \
+-		find "$(icondir)/$$iconset" -name CVS \
++			| (cd "$(DESTDIR)$(icondir)" && tar xfBp -); \
++		find "$(DESTDIR)$(icondir)/$$iconset" -name CVS \
+ 			-exec rm -r {} \; 2>/dev/null; \
+-		(cd "$(icondir)/$$iconset" && [ -s $(SYMLINKS_LST) ] \
++		(cd "$(DESTDIR)$(icondir)/$$iconset" && [ -s $(SYMLINKS_LST) ] \
+ 			&& $(AWK) '{ system("ln -sf " $$1 " " $$2) }' \
+ 				< $(SYMLINKS_LST) \
+ 			&& rm $(SYMLINKS_LST) || true \
+diff -Nur wm-icons-0.3.0.old/Makefile.am wm-icons-0.3.0.new/Makefile.am
+--- wm-icons-0.3.0.old/Makefile.am	2001-03-19 22:13:35.000000000 +0100
++++ wm-icons-0.3.0.new/Makefile.am	2004-12-09 16:26:19.724169888 +0100
+@@ -7,14 +7,15 @@
+ 
+ AUTOMAKE_OPTIONS = foreign
+ 
+-SUBDIRS = bin doc icons etc devel rpm
++SUBDIRS = bin doc icons etc devel
+ 
+ # We need to specify --user-dir here in case the prefix (=> datadir
+ # => icondir) is different for the build and install phases, as it
+ # is for a distribution package building.
++
++# set the default icon set aliases (symlinks)
+ install-data-local:
+-	# set the default icon set aliases (symlinks)
+-	$(bindir)/wm-icons-config --user-dir="$(icondir)" --defaults --quiet
++	$(DESTDIR)$(bindir)/wm-icons-config --user-dir="$(DESTDIR)$(icondir)" --defaults --quiet
+ 
+ wm-configs _pack-symlinks _unpack-symlinks:
+ 	cd devel/bin && $(MAKE) $(AM_MAKEFLAGS) $@
+Pliki wm-icons-0.3.0.old/.Makefile.am.swp i wm-icons-0.3.0.new/.Makefile.am.swp ró¿ni± siê
