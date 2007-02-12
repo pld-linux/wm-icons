@@ -1,5 +1,5 @@
 Summary:	Window Manager Icons - themable icon distribution
-Summary(pl):	Window Manager Icons - konfigurowalny zbiór ikon
+Summary(pl.UTF-8):   Window Manager Icons - konfigurowalny zbiÃ³r ikon
 Name:		wm-icons
 Version:	0.3.0
 Release:	1
@@ -19,10 +19,10 @@ The Window Manager Icons is an efficient icon distribution designed to
 be standardized and configurable. Includes several themed icon sets,
 scripts and configurations for several window managers.
 
-%description -l pl
+%description -l pl.UTF-8
 Window Manager Icons to wydajna dystrybucja ikon zaprojektowana do
-standaryzacji i konfigurowania. Posiada parê tematycznych zestawów
-ikon, skrypty i konfiguracjê dla kilku menad¿erów okien.
+standaryzacji i konfigurowania. Posiada parÄ™ tematycznych zestawÃ³w
+ikon, skrypty i konfiguracjÄ™ dla kilku menadÅ¼erÃ³w okien.
 
 %prep
 %setup -q
